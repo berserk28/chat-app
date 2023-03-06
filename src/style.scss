@@ -1,6 +1,7 @@
 :root {
   --bgColor: #a7bcff;
   --logoColor: #5d5b8d;
+  --sidebarColor: #3e3c61;
 }
 
 .formContainer {
@@ -78,6 +79,32 @@
     p {
       color: var(--logoColor);
       font-size: 12px;
+    }
+  }
+}
+
+// Home page
+
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--bgColor);
+  .homeWrapper {
+    display: flex;
+    background-color: white;
+    height: 80%;
+    width: 65%;
+    border-radius: 10px;
+    overflow: hidden;
+    .sidebar {
+      flex: 1;
+      background-color: var(--sidebarColor);
+    }
+
+    .messages {
+      flex: 2;
     }
   }
 }
