@@ -2,6 +2,7 @@
   --bgColor: #a7bcff;
   --logoColor: #5d5b8d;
   --sidebarColor: #3e3c61;
+  --navbarColor: #2f2d52;
 }
 
 .formContainer {
@@ -101,6 +102,76 @@
     .sidebar {
       flex: 1;
       background-color: var(--sidebarColor);
+      .navbar {
+        background-color: var(--navbarColor);
+        height: 50px;
+        color: white;
+        display: flex;
+        align-items: center;
+        padding: 0px 5px;
+        justify-content: space-between;
+        .title {
+          font-weight: bold;
+        }
+        .user {
+          display: flex;
+          gap: 5px;
+          font-size: 12px;
+          align-items: center;
+          text-transform: capitalize;
+          img {
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+          button {
+            background-color: var(--bgColor);
+            border: none;
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 5px;
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      .searchbar {
+        input {
+          overflow: hidden;
+          background-color: transparent;
+          border: none;
+          padding: 10px;
+          color: white;
+          outline: none;
+          &::placeholder {
+            color: lightgray;
+          }
+        }
+      }
+
+      .user {
+        padding-left: 5px;
+        display: flex;
+        color: white;
+        align-items: center;
+        margin-bottom: 10px;
+        gap: 10px;
+        text-transform: capitalize;
+        &:hover {
+          background-color: var(--navbarColor);
+          cursor: pointer;
+        }
+        img {
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+        }
+      }
     }
 
     .messages {
