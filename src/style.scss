@@ -112,6 +112,7 @@
         justify-content: space-between;
         .title {
           font-weight: bold;
+          align-self: center;
         }
         .user {
           display: flex;
@@ -119,6 +120,7 @@
           font-size: 12px;
           align-items: center;
           text-transform: capitalize;
+
           img {
             height: 30px;
             width: 30px;
@@ -152,24 +154,28 @@
           }
         }
       }
+      .users {
+        .user {
+          display: flex;
+          padding: 2px 5px;
 
-      .user {
-        padding-left: 5px;
-        display: flex;
-        color: white;
-        align-items: center;
-        margin-bottom: 10px;
-        gap: 10px;
-        text-transform: capitalize;
-        &:hover {
-          background-color: var(--navbarColor);
-          cursor: pointer;
-        }
-        img {
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          object-fit: cover;
+          img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+          .user-info {
+            span {
+              color: white;
+              align-self: flex-end;
+              font-weight: bold;
+              text-transform: capitalize;
+            }
+            p {
+              color: gray;
+            }
+          }
         }
       }
     }
