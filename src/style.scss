@@ -1,8 +1,8 @@
 :root {
   --bgColor: #a7bcff;
-  --logoColor: #5d5b8d;
-  --sidebarColor: #3e3c61;
-  --navbarColor: #2f2d52;
+  --logoColor: #002656;
+  --sidebarColor: #7d93cf;
+  --navbarColor: #546ca5;
 }
 * {
   padding: 0;
@@ -94,6 +94,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  color: white;
   background-color: var(--bgColor);
   .homeWrapper {
     display: flex;
@@ -104,14 +105,15 @@
     overflow: hidden;
     .sidebar {
       flex: 1;
-      background-color: var(--sidebarColor);
+      background-color: var(--navbarColor);
       .navbar {
-        background-color: var(--navbarColor);
+        background-color: var(--logoColor);
         height: 50px;
+        padding: 10px;
         color: white;
         display: flex;
         align-items: center;
-        padding: 0px 5px;
+
         justify-content: space-between;
         .title {
           font-weight: bold;
@@ -193,8 +195,30 @@
 
     .messages {
       flex: 2;
+      background-color: #e6f0ff;
       .message-info {
-        background-color: var(--logoColor);
+        display: flex;
+        background-color: var(--sidebarColor);
+        height: 50px;
+        padding: 10px;
+        align-items: center;
+        justify-content: space-between;
+        span {
+          letter-spacing: 1px;
+          border: 1px solid var(--bgColor);
+          padding: 4px 8px;
+          border-radius: 10px;
+        }
+        .logo {
+          font-size: 25px;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .message {
+        color: black;
       }
     }
   }
