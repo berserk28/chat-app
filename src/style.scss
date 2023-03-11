@@ -7,6 +7,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 .formContainer {
   background-color: var(--bgColor);
@@ -194,6 +195,7 @@
     }
 
     .messages {
+      position: relative;
       flex: 2;
       background-color: #e6f0ff;
       .message-info {
@@ -216,9 +218,51 @@
           }
         }
       }
+      .message-area {
+        height: calc(100% - 140px);
+        .message {
+          margin-top: 10px;
+          margin-left: 5px;
+          color: black;
+          .message-content {
+            display: flex;
 
-      .message {
+            gap: 10px;
+            img {
+              height: 50px;
+              width: 50px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+            p {
+              align-self: center;
+            }
+          }
+          span {
+            color: gray;
+          }
+        }
+      }
+      .input {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
         color: black;
+        background-color: white;
+        height: 50px;
+        padding: 10px;
+        border: none;
+        outline: none;
+
+        input {
+          border: none;
+          outline: none;
+        }
+        .send {
+          display: flex;
+          gap: 5px;
+        }
       }
     }
   }
