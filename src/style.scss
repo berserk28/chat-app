@@ -219,7 +219,39 @@
         }
       }
       .message-area {
-        height: calc(100% - 140px);
+        height: calc(100% - 100px);
+        overflow-y: scroll;
+        .message-response {
+          margin-top: 10px;
+          margin-left: 5px;
+          color: black;
+          .message-content {
+            display: flex;
+            flex-direction: row-reverse;
+            margin-right: 5px;
+            .message-icon-time {
+              display: flex;
+              flex-direction: column;
+            }
+            gap: 10px;
+            img {
+              height: 50px;
+              width: 50px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+            p {
+              align-self: center;
+              background-color: #8da4f1;
+              padding: 5px 10px;
+              color: white;
+              border-radius: 10px 0px 10px 10px;
+            }
+          }
+          span {
+            color: gray;
+          }
+        }
         .message {
           margin-top: 10px;
           margin-left: 5px;
@@ -227,6 +259,10 @@
           .message-content {
             display: flex;
 
+            .message-icon-time {
+              display: flex;
+              flex-direction: column;
+            }
             gap: 10px;
             img {
               height: 50px;
@@ -262,6 +298,24 @@
         .send {
           display: flex;
           gap: 5px;
+          img {
+            width: 25px;
+            &:hover {
+              cursor: pointer;
+            }
+          }
+          button {
+            padding: 0px 8px;
+            border: none;
+            background-color: var(--navbarColor);
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            &:hover {
+              cursor: pointer;
+              background-color: var(--logoColor);
+            }
+          }
         }
       }
     }

@@ -9,7 +9,7 @@ const Input = () => {
         <label htmlFor="img">
           <img src={Img} alt="" />
         </label>
-        <button>send</button>
+        <button>Send</button>
       </div>
     </div>
   );
