@@ -1,3 +1,8 @@
+@mixin mobile {
+  @media screen and (max-width: 710px) {
+    @content;
+  }
+}
 :root {
   --bgColor: #a7bcff;
   --logoColor: #002656;
@@ -106,9 +111,12 @@
     overflow: hidden;
     .sidebar {
       flex: 1;
-      background-color: var(--navbarColor);
+      background-color: #296985;
+      @include mobile {
+        display: none;
+      }
       .navbar {
-        background-color: var(--logoColor);
+        background-color: #0c5371;
         height: 50px;
         padding: 10px;
         color: white;
@@ -167,7 +175,7 @@
           margin-bottom: 10px;
           padding: 0px 7px;
           &:hover {
-            background-color: var(--navbarColor);
+            background-color: var(--logoColor);
             cursor: pointer;
           }
           img {
@@ -221,57 +229,51 @@
       .message-area {
         height: calc(100% - 100px);
         overflow-y: scroll;
-        .message-response {
-          margin-top: 10px;
-          margin-left: 5px;
-          color: black;
-          .message-content {
-            display: flex;
-            flex-direction: row-reverse;
-            margin-right: 5px;
-            .message-icon-time {
-              display: flex;
-              flex-direction: column;
-            }
-            gap: 10px;
-            img {
-              height: 50px;
-              width: 50px;
-              border-radius: 50%;
-              object-fit: cover;
-            }
-            p {
-              align-self: center;
-              background-color: #8da4f1;
-              padding: 5px 10px;
-              color: white;
-              border-radius: 10px 0px 10px 10px;
-            }
-          }
-          span {
-            color: gray;
-          }
-        }
-        .message {
-          margin-top: 10px;
-          margin-left: 5px;
-          color: black;
-          .message-content {
-            display: flex;
 
+        .message {
+          margin-top: 20px;
+          margin-left: 5px;
+          color: black;
+          .message-content {
+            display: flex;
+            gap: 10px;
             .message-icon-time {
               display: flex;
               flex-direction: column;
+              gap: 10px;
+
+              img {
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+              }
             }
-            gap: 10px;
-            img {
-              height: 50px;
-              width: 50px;
-              border-radius: 50%;
-              object-fit: cover;
+            .message-content-container {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              justify-content: center;
+              img {
+                height: 200px;
+                width: 150px;
+              }
+              p {
+                background-color: lightgray;
+                padding: 5px 10px;
+                border-radius: 0px 10px 10px 10px;
+                color: rgb(34, 33, 33);
+              }
             }
-            p {
-              align-self: center;
+
+            &.owner {
+              flex-direction: row-reverse;
+              p {
+                padding: 5px 10px;
+                border-radius: 10px 0px 10px 10px;
+                background-color: var(--navbarColor);
+                color: #fff;
+              }
             }
           }
           span {

@@ -1,9 +1,9 @@
 import React from "react";
-
+import Face from "../images/face.jpg";
 const Message = () => {
   return (
-    <div className="message-response">
-      <div className="message-content">
+    <div className="message ">
+      <div className="message-content owner">
         <div className="message-icon-time">
           <img
             src={
@@ -13,7 +13,11 @@ const Message = () => {
           />
           <span>just now</span>
         </div>
-        <p>hey how u doing </p>
+
+        <div className="message-content-container">
+          <p>hey how u doing </p>
+          {/* <img src={Face} alt="" /> */}
+        </div>
       </div>
     </div>
   );
