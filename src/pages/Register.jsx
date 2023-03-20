@@ -9,7 +9,7 @@ const Register = () => {
     const email = e.target[1].value;
     const password = e.target[2].value;
     const avatar = e.target[3].value;
-    console.log(avatar);
+
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
     } catch (error) {
@@ -31,6 +31,7 @@ const Register = () => {
             type="file"
             placeholder="none"
             id="file"
+            onChange={(event) => console.log(event.target.files[0].name)}
           />
           <label htmlFor="file">
             <img src={avatar} alt="avatar" />
