@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import avatar from "../images/avatar.jpg";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, storage } from "../firebase";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+
 const Register = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -9,11 +11,26 @@ const Register = () => {
     const email = e.target[1].value;
     const password = e.target[2].value;
     const avatar = e.target[3].value;
-
     try {
+      // create user
       const res = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(res);
+      const storageRef = ref(storage, avatar);
+
+      const uploadTask = uploadBytesResumable(storageRef, avatar);
+
+      uploadTask.on(
+        (error) => {
+          console.log("nooo");
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await updateProfile(res.user);
+          });
+        }
+      );
     } catch (error) {
-      console.log("wrong");
+      console.log("nonooo");
     }
   };
 
