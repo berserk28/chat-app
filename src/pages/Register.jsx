@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import avatar from "../images/avatar.jpg";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, storage } from "../firebase";
+import { auth, storage, db } from "../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
 
 const Register = () => {
   const submitHandler = async (e) => {
@@ -10,14 +11,18 @@ const Register = () => {
     const name = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
-    const avatar = e.target[3].value;
+    const avatar = e.target[3].value.replace("C:\\fakepath\\", "");
+    console.log(avatar);
     try {
       // create user
       const res = await createUserWithEmailAndPassword(auth, email, password);
       console.log(res);
+      // creating unique image
       const storageRef = ref(storage, avatar);
-
-      const uploadTask = uploadBytesResumable(storageRef, avatar);
+      const uploadTask = uploadBytesResumable(
+        storageRef,
+        "Directory/$filename"
+      );
 
       uploadTask.on(
         (error) => {
@@ -25,8 +30,16 @@ const Register = () => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            console.log(downloadURL, name);
             await updateProfile(res.user, {
               displayName: name,
+              photoURL: downloadURL,
+            });
+            // Add a new document in collection "users"
+            await setDoc(doc(db, "users", res.user.uid), {
+              uid: res.user.uid,
+              name,
+              email,
               photoURL: downloadURL,
             });
           });
@@ -51,7 +64,6 @@ const Register = () => {
             type="file"
             placeholder="none"
             id="file"
-            onChange={(event) => console.log(event.target.files[0].name)}
           />
           <label htmlFor="file">
             <img src={avatar} alt="avatar" />
