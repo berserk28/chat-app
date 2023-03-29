@@ -2,52 +2,56 @@ import React, { useState } from "react";
 import avatar from "../images/avatar.jpg";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, storage, db } from "../firebase";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import {
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+  uploadBytes,
+} from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 
 const Register = () => {
   const submitHandler = async (e) => {
-    e.preventDefault();
-    const name = e.target[0].value;
+       e.preventDefault();
+    const displayName = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
-    const avatar = e.target[3].value.replace("C:\\fakepath\\", "");
-    console.log(avatar);
-    try {
-      // create user
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res);
-      // creating unique image
-      const storageRef = ref(storage, avatar);
-      const uploadTask = uploadBytesResumable(
-        storageRef,
-        "Directory/$filename"
-      );
+    const file = e.target[3].files[0];
 
-      uploadTask.on(
-        (error) => {
-          console.log("nooo");
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            console.log(downloadURL, name);
+    try {
+      //Create user
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+
+      //Create a unique image name
+      const date = new Date().getTime();
+      const storageRef = ref(storage, `${displayName + date}`);
+
+      await uploadBytesResumable(storageRef, file).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          try {
+            //Update profile
             await updateProfile(res.user, {
-              displayName: name,
+              displayName,
               photoURL: downloadURL,
             });
-            // Add a new document in collection "users"
+            //create user on firestore
             await setDoc(doc(db, "users", res.user.uid), {
               uid: res.user.uid,
-              name,
+              displayName,
               email,
               photoURL: downloadURL,
             });
-          });
-        }
-      );
-    } catch (error) {
-      console.log("nonooo");
+
+           
+          } catch (err) {
+            console.log('small error')
+          }
+        });
+      });
+    } catch (err) {
+      console.log('big error')
     }
+  
   };
 
   return (
@@ -59,12 +63,7 @@ const Register = () => {
           <input type="text" placeholder="display name" />
           <input type="email" placeholder="email" />
           <input type="password" placeholder="password" />
-          <input
-            style={{ display: "none" }}
-            type="file"
-            placeholder="none"
-            id="file"
-          />
+          <input style={{ display: "none" }} type="file" id="file" />
           <label htmlFor="file">
             <img src={avatar} alt="avatar" />
             <span> + add an avatar </span>
