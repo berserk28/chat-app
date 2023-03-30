@@ -9,49 +9,43 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import { async } from "@firebase/util";
 
 const Register = () => {
   const submitHandler = async (e) => {
-       e.preventDefault();
+    e.preventDefault();
     const displayName = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
     const file = e.target[3].files[0];
-
     try {
-      //Create user
+      // creating account
       const res = await createUserWithEmailAndPassword(auth, email, password);
-
-      //Create a unique image name
-      const date = new Date().getTime();
-      const storageRef = ref(storage, `${displayName + date}`);
-
-      await uploadBytesResumable(storageRef, file).then(() => {
-        getDownloadURL(storageRef).then(async (downloadURL) => {
+      console.log(res);
+      // creating unique image
+      const imageRef = ref(storage, `${displayName}`);
+      await uploadBytesResumable(imageRef, file).then(() => {
+        getDownloadURL(imageRef).then(async (downloadURL) => {
           try {
-            //Update profile
+            // updating the user
             await updateProfile(res.user, {
               displayName,
               photoURL: downloadURL,
             });
-            //create user on firestore
+            // Add a new document in collection "cities"
             await setDoc(doc(db, "users", res.user.uid), {
-              uid: res.user.uid,
-              displayName,
-              email,
-              photoURL: downloadURL,
+             : "Los Angeles",
+              state: "CA",
+              country: "USA",
             });
-
-           
-          } catch (err) {
-            console.log('small error')
+          } catch (error) {
+            console.log("error image problem");
           }
         });
       });
-    } catch (err) {
-      console.log('big error')
+    } catch (error) {
+      console.log("big error");
     }
-  
   };
 
   return (
