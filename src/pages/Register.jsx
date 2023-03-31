@@ -34,9 +34,9 @@ const Register = () => {
             });
             // Add a new document in collection "cities"
             await setDoc(doc(db, "users", res.user.uid), {
-             : "Los Angeles",
-              state: "CA",
-              country: "USA",
+              name: displayName,
+              email: email,
+              image: downloadURL,
             });
           } catch (error) {
             console.log("error image problem");
