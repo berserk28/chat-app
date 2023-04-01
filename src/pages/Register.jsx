@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import avatar from "../images/avatar.jpg";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, storage, db } from "../firebase";
-import {
-  ref,
-  getDownloadURL,
-  uploadBytesResumable,
-  uploadBytes,
-} from "firebase/storage";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
-import { async } from "@firebase/util";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const [setError, error] = useState(false);
+  const [setLoading, loading] = useState(false);
+  const navigate = useNavigate();
   const submitHandler = async (e) => {
     e.preventDefault();
     const displayName = e.target[0].value;
@@ -32,12 +30,15 @@ const Register = () => {
               displayName,
               photoURL: downloadURL,
             });
-            // Add a new document in collection "cities"
+            // Add a new document in collection "users"
             await setDoc(doc(db, "users", res.user.uid), {
               name: displayName,
               email: email,
               image: downloadURL,
             });
+            // create empty user chat on firestore
+            await setDoc(doc(db, "usersChats", res.user.uid), {});
+            navigate("/");
           } catch (error) {
             console.log("error image problem");
           }
