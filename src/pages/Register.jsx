@@ -26,11 +26,13 @@ const Register = () => {
         getDownloadURL(imageRef).then(async (downloadURL) => {
           try {
             // updating the user
-            await updateProfile(res.user, {
+            await (res.user,
+            {
               displayName,
               photoURL: downloadURL,
             });
             // Add a new document in collection "users"
+
             await setDoc(doc(db, "users", res.user.uid), {
               name: displayName,
               email: email,
