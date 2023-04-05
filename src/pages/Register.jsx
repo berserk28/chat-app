@@ -26,8 +26,7 @@ const Register = () => {
         getDownloadURL(imageRef).then(async (downloadURL) => {
           try {
             // updating the user
-            await (res.user,
-            {
+            await updateProfile(res.user, {
               displayName,
               photoURL: downloadURL,
             });
@@ -37,6 +36,7 @@ const Register = () => {
               name: displayName,
               email: email,
               image: downloadURL,
+              uid: res.user.uid,
             });
             // create empty user chat on firestore
             await setDoc(doc(db, "usersChats", res.user.uid), {});
