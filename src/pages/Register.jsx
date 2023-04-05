@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, storage, db } from "../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
   const [setError, error] = useState(false);
@@ -66,7 +66,9 @@ const Register = () => {
             <span> + add an avatar </span>
           </label>
           <button> Sign in </button>
-          <p>you do have an accont ? login</p>
+          <p>
+            You do have an account?<Link to="/login">login</Link>
+          </p>
         </form>
       </div>
     </div>
