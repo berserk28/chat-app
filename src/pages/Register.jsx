@@ -5,10 +5,10 @@ import { auth, storage, db } from "../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
-
+import nani from "../images/nani.gif";
 const Register = () => {
-  const [setError, error] = useState(false);
-  const [setLoading, loading] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -20,6 +20,7 @@ const Register = () => {
       // creating account
       const res = await createUserWithEmailAndPassword(auth, email, password);
       console.log(res);
+      setLoading(true);
       // creating unique image
       const imageRef = ref(storage, `${displayName}`);
       await uploadBytesResumable(imageRef, file).then(() => {
@@ -41,6 +42,7 @@ const Register = () => {
             // create empty user chat on firestore
             await setDoc(doc(db, "usersChats", res.user.uid), {});
             navigate("/");
+            setLoading(false);
           } catch (error) {
             console.log("error image problem");
           }
@@ -62,10 +64,17 @@ const Register = () => {
           <input type="password" placeholder="password" />
           <input style={{ display: "none" }} type="file" id="file" />
           <label htmlFor="file">
-            <img src={avatar} alt="avatar" />
-            <span> + add an avatar </span>
+            {!loading && <img src={avatar} alt="avatar" />}
+            {loading ? (
+              <span>
+                <img src={nani} alt="" className="spinner" />
+                Uploading and compressing the image please wait
+              </span>
+            ) : (
+              <span>+ Add an avatar</span>
+            )}
           </label>
-          <button> Sign in </button>
+          <button> Sign in</button>
           <p>
             You do have an account?<Link to="/login">login</Link>
           </p>
