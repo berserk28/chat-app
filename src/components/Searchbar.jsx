@@ -1,22 +1,36 @@
-import React, { useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
+  doc,
+  onSnapshot,
+  QuerySnapshot,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import User from "./User";
 const Searchbar = () => {
   const [userName, setUserName] = useState();
-  const handleSearch = async () => {
-    // Create a reference to the users collection
-
-    const usersRef = collection(db, "users");
-
-    // Create a query against the collection.
-    const q = query(usersRef, where("name", "==", userName));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.data().name);
+  const [myUsers, setMyUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const collectionRef = collection(db, "users");
+  useEffect(() => {
+    const unsub = onSnapshot(collectionRef, (querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data());
+      });
+      setMyUsers(items);
     });
-  };
+
+    return () => {
+      unsub();
+    };
+  }, []);
+
+  const handleSearch = async () => {};
   const handleKey = (e) => {
     e.key === "Enter" && handleSearch();
   };
@@ -31,10 +45,10 @@ const Searchbar = () => {
         />
       </div>
       <div className="users">
-        <User />
-        <User />
-        <User />
-        <User />
+        {myUsers.map((user) => {
+          console.log(user.uid);
+          return <User user={user} key={user.uid} />;
+        })}
       </div>
     </div>
   );
