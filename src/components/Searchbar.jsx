@@ -14,8 +14,11 @@ import User from "./User";
 const Searchbar = () => {
   const [userName, setUserName] = useState();
   const [myUsers, setMyUsers] = useState([]);
+  const [searchedUser, setSearchedUser] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [search, setSearch] = useState(false);
   const collectionRef = collection(db, "users");
+
   useEffect(() => {
     const unsub = onSnapshot(collectionRef, (querySnapshot) => {
       const items = [];
@@ -30,10 +33,23 @@ const Searchbar = () => {
     };
   }, []);
 
-  const handleSearch = async () => {};
+  const handleSearch = () => {
+    const wanted = myUsers.filter((item) => {
+      return userName === item.name;
+    });
+    if (wanted.length !== 0) {
+      console.log(wanted);
+    }
+    if (userName === "") {
+      setMyUsers(wanted);
+    } else {
+      setMyUsers([]);
+    }
+  };
   const handleKey = (e) => {
     e.key === "Enter" && handleSearch();
   };
+
   return (
     <div>
       <div className="searchbar">
@@ -45,10 +61,13 @@ const Searchbar = () => {
         />
       </div>
       <div className="users">
-        {myUsers.map((user) => {
-          console.log(user.uid);
-          return <User user={user} key={user.uid} />;
-        })}
+        {myUsers.length !== 0 ? (
+          myUsers.map((user) => {
+            return <User user={user} key={user.uid} />;
+          })
+        ) : (
+          <p>sorry there is no users</p>
+        )}
       </div>
     </div>
   );
