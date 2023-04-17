@@ -19,7 +19,7 @@ const Register = () => {
     try {
       // creating account
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res);
+
       setLoading(true);
       // creating unique image
       const imageRef = ref(storage, `${displayName}`);
