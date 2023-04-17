@@ -14,9 +14,7 @@ import User from "./User";
 const Searchbar = () => {
   const [userName, setUserName] = useState();
   const [myUsers, setMyUsers] = useState([]);
-  const [searchedUser, setSearchedUser] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [search, setSearch] = useState(false);
+
   const collectionRef = collection(db, "users");
 
   useEffect(() => {
@@ -25,31 +23,22 @@ const Searchbar = () => {
       querySnapshot.forEach((doc) => {
         items.push(doc.data());
       });
-      setMyUsers(items);
+
+      if (userName) {
+        const wanted = items.filter((item) => {
+          return userName === item.name;
+        });
+        setMyUsers(wanted);
+      } else {
+        setMyUsers(items);
+      }
     });
 
     return () => {
       unsub();
     };
-  }, []);
-
-  const handleSearch = () => {
-    const wanted = myUsers.filter((item) => {
-      return userName === item.name;
-    });
-    if (wanted.length !== 0) {
-      console.log(wanted);
-    }
-    if (userName === "") {
-      setMyUsers(wanted);
-    } else {
-      setMyUsers([]);
-    }
-  };
-  const handleKey = (e) => {
-    e.key === "Enter" && handleSearch();
-  };
-
+  }, [userName]);
+  console.log(myUsers);
   return (
     <div>
       <div className="searchbar">
@@ -57,7 +46,6 @@ const Searchbar = () => {
           type="text"
           placeholder="Find a user "
           onChange={(e) => setUserName(e.target.value)}
-          onKeyDown={handleKey}
         />
       </div>
       <div className="users">
@@ -66,7 +54,7 @@ const Searchbar = () => {
             return <User user={user} key={user.uid} />;
           })
         ) : (
-          <p>sorry there is no users</p>
+          <p> sorry there is no users</p>
         )}
       </div>
     </div>
