@@ -54,7 +54,7 @@ const Searchbar = () => {
             return <User user={user} key={user.uid} />;
           })
         ) : (
-          <p> sorry there is no users</p>
+         
         )}
       </div>
     </div>
