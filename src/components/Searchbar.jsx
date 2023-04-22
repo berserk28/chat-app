@@ -38,7 +38,7 @@ const Searchbar = () => {
       unsub();
     };
   }, [userName]);
-  console.log(myUsers);
+
   return (
     <div>
       <div className="searchbar">
