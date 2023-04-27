@@ -16,11 +16,12 @@ const User = ({ user }) => {
       user.uid > currentUser.uid
         ? user.uid + currentUser.uid
         : currentUser.uid + user.uid;
-
+    console.log(combinedID);
     try {
       const res = await getDoc(doc(db, "chats", combinedID));
       console.log(res.exists());
       //  if chats collection does not exist create one
+      console.log(user.name);
       if (!res.exists()) {
         // creating chat collection
         await setDoc(doc(db, "chats", combinedID), { message: {} });
@@ -29,21 +30,22 @@ const User = ({ user }) => {
         await updateDoc(doc(db, "usersChats", user.uid), {
           [combinedID + ".userInfo"]: {
             uid: user.uid,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
+            displayName: user.name,
+            photoURL: user.image,
           },
           [combinedID + ".date"]: serverTimestamp(),
         });
-        console.log("first");
+
         // current user
         await updateDoc(doc(db, "usersChats", currentUser.uid), {
           [combinedID + ".currentUserInfo"]: {
             uid: currentUser.uid,
-            displayName: currentUser.displayName,
-            photoURL: currentUser.photoURL,
+            displayName: currentUser.name,
+            photoURL: currentUser.image,
           },
           [combinedID + ".date"]: serverTimestamp(),
         });
+        console.log("first");
       }
     } catch (error) {
       console.log("chats ERROR");
