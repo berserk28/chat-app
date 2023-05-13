@@ -11,6 +11,7 @@ import {
 import { db } from "../firebase";
 const User = ({ user }) => {
   const { setSelectedUser, currentUser } = useContext(AuthContext);
+  setSelectedUser(user);
   const handleSelect = async () => {
     const combinedID =
       user.uid > currentUser.uid
