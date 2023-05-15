@@ -3,14 +3,16 @@ import Img from "../images/img.png";
 import { doc } from "firebase/firestore";
 import { db } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
 const Input = () => {
   const { currentUser, selectedUser } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
   const messageHandler = (e) => {
     console.log(e.value);
   };
 
   const handleSend = () => {
-    console.log(selectedUser.displayName);
+    console.log(data);
   };
   return (
     <div className="input">
