@@ -9,10 +9,13 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
+import { ChatContext } from "../context/ChatContext";
 const User = ({ user }) => {
-  const { setSelectedUser, currentUser } = useContext(AuthContext);
-
+  const { currentUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
   const handleSelect = async () => {
+    // calling dispatch function
+    dispatch({ type: "Change_user", payload: user });
     const combinedID =
       user.uid > currentUser.uid
         ? user.uid + currentUser.uid
@@ -20,7 +23,7 @@ const User = ({ user }) => {
     console.log(combinedID);
     try {
       const res = await getDoc(doc(db, "chats", combinedID));
-      console.log(res.exists());
+
       //  if chats collection does not exist create one
       console.log(user.name);
       if (!res.exists()) {
