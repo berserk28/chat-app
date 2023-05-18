@@ -16,7 +16,6 @@ const Input = () => {
   };
 
   const handleSend = async () => {
-    console.log(currentUser.uid);
     if (image) {
       const imageRef = ref(storage, uuid());
       await uploadBytesResumable(imageRef, image).then(() => {
@@ -46,7 +45,6 @@ const Input = () => {
             senderId: currentUser.uid,
           }),
         });
-        await updateDoc(doc(db, "userchats"));
       } catch (error) {
         console.log("Error in sending the message");
       }

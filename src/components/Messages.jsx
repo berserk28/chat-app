@@ -3,12 +3,15 @@ import { CiCircleMore } from "react-icons/ci";
 import Message from "./Message";
 import Input from "./Input";
 import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
 const Messages = () => {
   const { currentUser } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
+  console.log(data.user.name);
   return (
     <div className="messages">
       <div className="message-info">
-        <span>{currentUser.displayName}</span>
+        <span>{data.user.name}</span>
         <CiCircleMore className="logo" />
       </div>
       <div className="message-area">
