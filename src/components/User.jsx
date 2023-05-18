@@ -30,7 +30,7 @@ const User = ({ user }) => {
         // creating chat collection
         await setDoc(doc(db, "chats", combinedID), { message: {} });
 
-        // create user
+        // updating userchats of the selected user
         await updateDoc(doc(db, "usersChats", user.uid), {
           [combinedID + ".userInfo"]: {
             uid: user.uid,
@@ -61,7 +61,7 @@ const User = ({ user }) => {
 
       <div className="user-info">
         <span> {user.name}</span>
-        <p>hi , am back</p>
+        <p></p>
       </div>
     </div>
   );
