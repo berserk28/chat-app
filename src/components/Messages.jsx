@@ -5,9 +5,8 @@ import Input from "./Input";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 const Messages = () => {
-  const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
-  console.log(data.user.name);
+
   return (
     <div className="messages">
       <div className="message-info">

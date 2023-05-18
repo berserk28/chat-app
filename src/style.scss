@@ -177,6 +177,9 @@
         }
       }
       .users {
+        p {
+          padding-left: 10px;
+        }
         .user {
           display: flex;
           gap: 5px;
@@ -192,6 +195,7 @@
             border-radius: 50%;
             object-fit: cover;
           }
+
           .user-info {
             padding-top: 3px;
             span {

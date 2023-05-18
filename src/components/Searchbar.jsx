@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   collection,
   query,
@@ -11,19 +11,22 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import User from "./User";
+import { AuthContext } from "../context/AuthContext";
 const Searchbar = () => {
   const [userName, setUserName] = useState();
   const [myUsers, setMyUsers] = useState([]);
-
+  const { currentUser } = useContext(AuthContext);
   const collectionRef = collection(db, "users");
 
   useEffect(() => {
     const unsub = onSnapshot(collectionRef, (querySnapshot) => {
-      const items = [];
+      let items = [];
       querySnapshot.forEach((doc) => {
         items.push(doc.data());
       });
-
+      items = items.filter((item) => {
+        return currentUser.displayName !== item.name;
+      });
       if (userName) {
         const wanted = items.filter((item) => {
           return userName === item.name;
@@ -54,7 +57,7 @@ const Searchbar = () => {
             return <User user={user} key={user.uid} />;
           })
         ) : (
-          <p>sorry there is no such user</p>
+          <p> there are no users</p>
         )}
       </div>
     </div>
