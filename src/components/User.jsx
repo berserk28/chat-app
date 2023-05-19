@@ -13,6 +13,9 @@ import { ChatContext } from "../context/ChatContext";
 const User = ({ user }) => {
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
+  // get data of last message
+  const docRef = doc(db, "userChats", "date");
+
   const handleSelect = async () => {
     // calling dispatch function
     dispatch({ type: "Change_user", payload: user });

@@ -48,18 +48,12 @@ const Input = () => {
         });
         // updating userChat
         await updateDoc(doc(db, "usersChats", data.user.uid), {
-          [data.chatId + ".userInfo"]: {
-            ...[data.chatId + ".userInfo"],
-            lastMessage: message,
-          },
+          [data.chatId + ".userInfo.lastMessage"]: message,
         });
 
         // current user
         await updateDoc(doc(db, "usersChats", currentUser.uid), {
-          [data.chatId + ".currentUserInfo"]: {
-            ...[data.chatId + ".currentUserInfo"],
-            lastMessage: message,
-          },
+          [data.chatId + ".currentUserInfo.lastMessage"]: message,
         });
       } catch (error) {
         console.log("Error in sending the message");
