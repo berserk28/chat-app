@@ -11,6 +11,7 @@ const Input = () => {
   const { data } = useContext(ChatContext);
   const [message, setMessage] = useState("");
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const messageHandler = (e) => {
     console.log(e.value);
   };
@@ -19,6 +20,7 @@ const Input = () => {
     console.log(data.chatId);
     if (image) {
       const imageRef = ref(storage, uuid());
+      setLoading(true);
       await uploadBytesResumable(imageRef, image).then(() => {
         getDownloadURL(imageRef).then(async (downloadURL) => {
           try {
@@ -46,21 +48,22 @@ const Input = () => {
             senderId: currentUser.uid,
           }),
         });
-        // updating userChat
-        await updateDoc(doc(db, "usersChats", data.user.uid), {
-          [data.chatId + ".userInfo.lastMessage"]: message,
-        });
-
-        // current user
-        await updateDoc(doc(db, "usersChats", currentUser.uid), {
-          [data.chatId + ".currentUserInfo.lastMessage"]: message,
-        });
       } catch (error) {
         console.log("Error in sending the message");
       }
     }
+    // updating userChat
+    await updateDoc(doc(db, "usersChats", data.user.uid), {
+      [data.chatId + ".userInfo.lastMessage"]: message,
+    });
+
+    // current user
+    await updateDoc(doc(db, "usersChats", currentUser.uid), {
+      [data.chatId + ".currentUserInfo.lastMessage"]: message,
+    });
     setMessage("");
     setImage(null);
+    setLoading(false);
   };
   return (
     <div className="input">
@@ -80,7 +83,9 @@ const Input = () => {
         <label htmlFor="img">
           <img src={Img} alt="" />
         </label>
-        <button onClick={handleSend}>Send</button>
+        <button onClick={handleSend}>
+          {!loading ? "send" : "is sending ..."}
+        </button>
       </div>
     </div>
   );
