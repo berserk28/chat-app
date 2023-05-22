@@ -39,6 +39,7 @@ const Input = () => {
         });
       });
     } else {
+      setLoading(true);
       try {
         await updateDoc(doc(db, "chats", data.chatId), {
           message: arrayUnion({

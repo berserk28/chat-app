@@ -5,6 +5,7 @@ import {
   where,
   getDocs,
   getDoc,
+  updateDoc,
   doc,
   onSnapshot,
   QuerySnapshot,
@@ -12,12 +13,16 @@ import {
 import { db } from "../firebase";
 import User from "./User";
 import { AuthContext } from "../context/AuthContext";
+import { getDatabase, ref, child, get } from "firebase/database";
+import { ChatContext } from "../context/ChatContext";
 const Searchbar = () => {
   const [userName, setUserName] = useState();
   const [myUsers, setMyUsers] = useState([]);
   const { currentUser } = useContext(AuthContext);
+  const { data } = useContext(ChatContext);
+  const [chats, setChats] = useState();
+  console.log(currentUser.uid);
   const collectionRef = collection(db, "users");
-
   useEffect(() => {
     const unsub = onSnapshot(collectionRef, (querySnapshot) => {
       let items = [];
@@ -52,6 +57,7 @@ const Searchbar = () => {
         />
       </div>
       <div className="users">
+        {" "}
         {myUsers.length !== 0 ? (
           myUsers.map((user) => {
             return <User user={user} key={user.uid} />;

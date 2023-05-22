@@ -3,7 +3,7 @@ import Face from "../images/face.jpg";
 const Message = () => {
   return (
     <div className="message ">
-      <div className="message-content owner">
+      <div className="message-content ">
         <div className="message-icon-time">
           <img
             src={
