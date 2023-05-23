@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import {
@@ -7,23 +7,39 @@ import {
   setDoc,
   updateDoc,
   serverTimestamp,
+  onSnapshot,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { ChatContext } from "../context/ChatContext";
 const User = ({ user }) => {
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
+  const [lastMessage, setLastMessage] = useState();
   // get data of last message
   const docRef = doc(db, "userChats", "date");
 
+  const combinedID =
+    user.uid > currentUser.uid
+      ? user.uid + currentUser.uid
+      : currentUser.uid + user.uid;
+  useEffect(() => {
+    // getiing the last message and put in
+    const unsub = onSnapshot(doc(db, "usersChats", currentUser.uid), (doc) => {
+      setLastMessage(
+        Object.entries(doc.data())[0][1].currentUserInfo.lastMessage
+      );
+    });
+
+    return () => {
+      unsub();
+    };
+  }, []);
+
+  console.log(lastMessage);
   const handleSelect = async () => {
     // calling dispatch function
     dispatch({ type: "Change_user", payload: user });
-    const combinedID =
-      user.uid > currentUser.uid
-        ? user.uid + currentUser.uid
-        : currentUser.uid + user.uid;
-    console.log(combinedID);
+
     try {
       const res = await getDoc(doc(db, "chats", combinedID));
 
@@ -58,13 +74,14 @@ const User = ({ user }) => {
       console.log("chats ERROR");
     }
   };
+
   return (
     <div className="user" onClick={handleSelect}>
       <img src={user.image} alt="" />
 
       <div className="user-info">
         <span> {user.name}</span>
-        <p></p>
+        <p>{lastMessage}</p>
       </div>
     </div>
   );
