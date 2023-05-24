@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Face from "../images/face.jpg";
-const Message = () => {
+import { AuthContext } from "../context/AuthContext";
+const Message = ({ msg }) => {
+  const { currentUser } = useContext(AuthContext);
+  const { senderId, text } = msg;
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  if (senderId === currentUser.uid) {
+    setIsCurrentUser(true);
+  } else {
+    setIsCurrentUser(false);
+  }
   return (
     <div className="message ">
-      <div className="message-content ">
+      <div
+        className={isCurrentUser ? "message-content owner" : "message-content "}
+      >
         <div className="message-icon-time">
           <img
             src={
@@ -15,7 +26,7 @@ const Message = () => {
         </div>
 
         <div className="message-content-container">
-          <p>hey how u doing </p>
+          <p>{text} </p>
           {/* <img src={Face} alt="" /> */}
         </div>
       </div>

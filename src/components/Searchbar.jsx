@@ -21,7 +21,7 @@ const Searchbar = () => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
   const [chats, setChats] = useState();
-  console.log(currentUser.uid);
+
   const collectionRef = collection(db, "users");
   useEffect(() => {
     const unsub = onSnapshot(collectionRef, (querySnapshot) => {

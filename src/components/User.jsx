@@ -35,7 +35,6 @@ const User = ({ user }) => {
     };
   }, []);
 
-  console.log(lastMessage);
   const handleSelect = async () => {
     // calling dispatch function
     dispatch({ type: "Change_user", payload: user });
