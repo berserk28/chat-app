@@ -11,7 +11,6 @@ const Messages = () => {
   const { data } = useContext(ChatContext);
   console.log(data);
   useEffect(() => {
-    // fteching all message between current user and  selected user
     const unsub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
       setMessages(Object.entries(doc.data())[0][1]);
     });
