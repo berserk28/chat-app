@@ -4,21 +4,24 @@ import Message from "./Message";
 import Input from "./Input";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, collection, querySnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 const Messages = () => {
-  const [messages, setMessages] = useState();
+  const [messages, setMessagesss] = useState([]);
   const { data } = useContext(ChatContext);
-  console.log(data);
+  const collectionRef = collection(db, "chats");
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
-      setMessages(Object.entries(doc.data())[0][1]);
+    let items = [];
+    const unsub = onSnapshot(collectionRef, (querySnapshot) => {
+      querySnapshot.forEach((item) => {
+        items.push(item.data());
+      });
     });
-
+    setMessagesss(items);
     return () => {
       unsub();
     };
-  }, [data.chatId]);
+  }, []);
   console.log(messages);
   return (
     <div className="messages">
