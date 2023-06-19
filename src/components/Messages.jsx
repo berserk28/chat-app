@@ -10,18 +10,20 @@ const Messages = () => {
   const [messages, setMessagesss] = useState([]);
   const { data } = useContext(ChatContext);
   const collectionRef = collection(db, "chats");
+  let items = [];
   useEffect(() => {
-    let items = [];
     const unsub = onSnapshot(collectionRef, (querySnapshot) => {
       querySnapshot.forEach((item) => {
         items.push(item.data());
       });
     });
-    setMessagesss(items);
+
     return () => {
       unsub();
     };
   }, []);
+  setMessagesss([...items]);
+  console.log(items);
   console.log(messages);
   return (
     <div className="messages">
