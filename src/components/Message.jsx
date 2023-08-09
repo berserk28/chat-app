@@ -1,27 +1,29 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Face from "../images/face.jpg";
 import { AuthContext } from "../context/AuthContext";
+import { db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 const Message = ({ msg }) => {
   const { currentUser } = useContext(AuthContext);
   const { senderId, text } = msg;
-  const [isCurrentUser, setIsCurrentUser] = useState(false);
-  if (senderId === currentUser.uid) {
-    setIsCurrentUser(true);
-  } else {
-    setIsCurrentUser(false);
-  }
+  const [profileImage, setProfileImage] = useState();
+  // const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const isCurrentUser = senderId === currentUser.uid;
+  const docRef = doc(db, "users", msg.senderId);
+  useEffect(() => {
+    const image = getDoc(docRef).then((res) => {
+      setProfileImage(res.data().image);
+    });
+  }, []);
+
+  console.log(profileImage);
   return (
     <div className="message ">
       <div
         className={isCurrentUser ? "message-content owner" : "message-content "}
       >
         <div className="message-icon-time">
-          <img
-            src={
-              "https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
-            }
-            alt="foto"
-          />
+          <img src={profileImage} alt="foto" />
           <span>just now</span>
         </div>
 
