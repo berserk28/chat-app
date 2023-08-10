@@ -20,27 +20,24 @@ const Messages = () => {
   const { currentUser } = useContext(AuthContext);
 
   console.log();
-  const documentId = "qJoQx6lVKQb5V59hkbUdT02dy952CQlP7hy1qIgE7FNvhRNvUX3KBd82";
-  const userId = "qJoQx6lVKQb5V59hkbUdT02dy952";
+
   console.log(data.chatId);
   const docRef = doc(db, "chats", data.chatId);
 
   useEffect(() => {
-    const docSnap = getDoc(docRef).then((res) => {
-      const items = res.data().message.map((msg) => {
-        return msg;
-      });
-
-      setMessages([...items]);
+    const unsub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
+      setMessages(doc.data().message);
       console.log(messages);
-      // const userMessages = res
-      //   .data()
-      //   .message.filter((msg) => msg.senderId === userId);
-      // setMessages([...userMessages]);
-      // console.log({
-      //   userMessages,
-      // });
     });
+
+    // const docSnap = getDoc(docRef).then((res) => {
+    //   const items = res.data().message.map((msg) => {
+    //     return msg;
+    //   });
+
+    //   setMessages([...items]);
+    //   console.log(messages);
+    // });
   }, [data.chatId]);
 
   return (

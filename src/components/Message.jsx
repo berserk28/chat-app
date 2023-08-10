@@ -4,8 +4,10 @@ import { AuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 const Message = ({ msg }) => {
+  const imageCheck = msg.text === "" ? true : false;
+  console.log(imageCheck);
   const { currentUser } = useContext(AuthContext);
-  const { senderId, text } = msg;
+  const { senderId, text, image } = msg;
   const [profileImage, setProfileImage] = useState();
   // const [isCurrentUser, setIsCurrentUser] = useState(false);
   const isCurrentUser = senderId === currentUser.uid;
@@ -16,7 +18,6 @@ const Message = ({ msg }) => {
     });
   }, []);
 
-  console.log(profileImage);
   return (
     <div className="message ">
       <div
@@ -28,8 +29,7 @@ const Message = ({ msg }) => {
         </div>
 
         <div className="message-content-container">
-          <p>{text} </p>
-          {/* <img src={Face} alt="" /> */}
+          {!imageCheck ? <p>{text} </p> : <img src={image} alt="" />}
         </div>
       </div>
     </div>
