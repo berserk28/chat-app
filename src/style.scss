@@ -4,8 +4,8 @@
   }
 }
 :root {
-  --bgColor: #a7bcff;
-  --logoColor: #002656;
+  --bgColor: #3498db;
+  --logoColor: #2980b9;
   --sidebarColor: #7d93cf;
   --navbarColor: #546ca5;
 }
@@ -13,6 +13,9 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  color: #333;
+  font-family: "Open Sans", sans-serif;
+  text-transform: capitalize;
 }
 // register page
 .formContainer {
@@ -29,6 +32,35 @@
     gap: 10px;
     border-radius: 10px;
     text-align: center;
+    .error-container {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      background-color: #fff;
+    }
+
+    .error-heading {
+      color: #e74c3c;
+      font-size: 16px;
+    }
+
+    .error-description {
+      margin-bottom: 20px;
+      color: red;
+    }
+
+    .error-link {
+      display: inline-block;
+      padding: 8px 15px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: background-color 0.3s ease;
+    }
+
+    .error-link:hover {
+      background-color: #2980b9;
+    }
   }
 
   .logo {
@@ -46,15 +78,33 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-
-    input {
-      width: 250px;
-      padding: 15px;
-      border: none;
-      outline: none;
-      border-bottom: 1px solid var(--bgColor);
-      &::placeholder {
-        color: rgb(175, 175, 175);
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      input {
+        width: 250px;
+        padding: 15px;
+        border: none;
+        outline: none;
+        border-bottom: 1px solid var(--bgColor);
+        &::placeholder {
+          color: rgb(175, 175, 175);
+        }
+      }
+      // error message styling
+      span {
+        padding-top: 2px;
+        color: rgb(219, 99, 99);
+        width: 250px;
+        font-size: 10px;
+        text-align: center;
+        display: none;
+      }
+      input:invalid[focused="true"] {
+        border: 1px solid red;
+      }
+      input:invalid[focused="true"] ~ span {
+        display: block;
       }
     }
 
@@ -86,9 +136,12 @@
     button {
       background-color: var(--logoColor);
       color: white;
-      padding: 10px;
+      padding: 15px 20px;
       border: none;
+      font-size: 15px;
       font-weight: bold;
+      border-radius: 5px;
+      margin-bottom: 10px;
       &:hover {
         background-color: var(--bgColor);
         cursor: pointer;

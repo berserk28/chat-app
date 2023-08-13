@@ -21,13 +21,11 @@ const Messages = () => {
 
   console.log();
 
-  console.log(data.chatId);
   const docRef = doc(db, "chats", data.chatId);
 
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
       setMessages(doc.data().message);
-      console.log(messages);
     });
 
     // const docSnap = getDoc(docRef).then((res) => {

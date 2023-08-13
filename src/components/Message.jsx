@@ -5,7 +5,7 @@ import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 const Message = ({ msg }) => {
   const imageCheck = msg.text === "" ? true : false;
-  console.log(imageCheck);
+
   const { currentUser } = useContext(AuthContext);
   const { senderId, text, image } = msg;
   const [profileImage, setProfileImage] = useState();

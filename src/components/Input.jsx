@@ -12,6 +12,8 @@ const Input = () => {
   const [message, setMessage] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  // checking
+  console.log(data.user.uid);
   const messageHandler = (e) => {
     console.log(e.value);
   };
@@ -57,7 +59,7 @@ const Input = () => {
     await updateDoc(doc(db, "usersChats", data.user.uid), {
       [data.chatId + ".userInfo.lastMessage"]: message,
     });
-
+    console.log(message);
     // current user
     await updateDoc(doc(db, "usersChats", currentUser.uid), {
       [data.chatId + ".currentUserInfo.lastMessage"]: message,

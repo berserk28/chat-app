@@ -12,7 +12,7 @@ const Login = () => {
 
     const email = e.target[0].value;
     const password = e.target[1].value;
-    console.log(email, password);
+
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
       console.log(res);
@@ -30,12 +30,25 @@ const Login = () => {
         <form onSubmit={submitHandler}>
           <input type="email" placeholder="email" />
           <input type="password" placeholder="password" />
-
-          <button> Sign in </button>
-          <p>
-            You don't have an account? <Link to={"/register"}>Register</Link>
-          </p>
-          {error && <p>something went wrong</p>}
+          {error ? (
+            <div class="error-container">
+              <h1 class="error-heading">User Not Found</h1>
+              <p class="error-description">
+                The user you are looking for does not exist.
+              </p>
+              <Link to={"/register"} class="error-link">
+                Go back to the Register page
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <button> Sign in </button>
+              <p>
+                You don't have an account?{" "}
+                <Link to={"/register"}>Register</Link>
+              </p>
+            </div>
+          )}
         </form>
       </div>
     </div>

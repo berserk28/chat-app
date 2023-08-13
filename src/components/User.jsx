@@ -24,7 +24,7 @@ const User = ({ user }) => {
       : currentUser.uid + user.uid;
   useEffect(() => {
     // getiing the last message and put in
-    const unsub = onSnapshot(doc(db, "usersChats", currentUser.uid), (doc) => {
+    const unsub = onSnapshot(doc(db, "usersChats", user.uid), (doc) => {
       setLastMessage(
         Object.entries(doc.data())[0][1].currentUserInfo.lastMessage
       );
@@ -73,7 +73,7 @@ const User = ({ user }) => {
       console.log("chats ERROR");
     }
   };
-
+  console.log(lastMessage);
   return (
     <div className="user" onClick={handleSelect}>
       <img src={user.image} alt="" />
