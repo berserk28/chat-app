@@ -15,9 +15,7 @@ const Login = () => {
 
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
-      console.log(res);
       navigate("/");
-      setError(true);
     } catch (error) {
       setError(true);
     }
@@ -28,17 +26,24 @@ const Login = () => {
         <span className="logo">fast chat</span>
         <span className="title">Login</span>
         <form onSubmit={submitHandler}>
-          <input type="email" placeholder="email" />
-          <input type="password" placeholder="password" />
+          <div className="input-container">
+            <input type="email" placeholder="email" />
+            <input type="password" placeholder="password" />
+          </div>
+
           {error ? (
             <div class="error-container">
-              <h1 class="error-heading">User Not Found</h1>
               <p class="error-description">
-                The user you are looking for does not exist.
+                Wrong password or email. Try again or click Register to create
+                new accont.
               </p>
-              <Link to={"/register"} class="error-link">
-                Go back to the Register page
-              </Link>
+              <div>
+                <button> Sign in </button>
+                <p>
+                  You don't have an account?{" "}
+                  <Link to={"/register"}>Register</Link>
+                </p>
+              </div>
             </div>
           ) : (
             <div>

@@ -3,6 +3,14 @@
     @content;
   }
 }
+@keyframes errorpop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 :root {
   --bgColor: #3498db;
   --logoColor: #2980b9;
@@ -19,12 +27,14 @@
 }
 // register page
 .formContainer {
+  box-sizing: border-box;
   background-color: var(--bgColor);
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   .formWrapper {
+    margin: 20px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -45,7 +55,13 @@
 
     .error-description {
       margin-bottom: 20px;
+
+      padding: 10px 5px;
+      border-radius: 10px;
+      background-color: #eecbc7;
       color: red;
+      width: 250px;
+      animation: errorpop 2s;
     }
 
     .error-link {
@@ -71,24 +87,33 @@
 
   .title {
     color: var(--logoColor);
-    font-size: 12px;
+    font-size: 15px;
   }
 
   form {
     display: flex;
+    width: fit-content;
+
     flex-direction: column;
     gap: 15px;
     .input-container {
       display: flex;
       flex-direction: column;
+      label {
+        font-size: 14px;
+        color: rgb(126, 123, 123);
+        padding: 10px 0px;
+      }
       input {
         width: 250px;
-        padding: 15px;
-        border: none;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid var(--bgColor);
         outline: none;
-        border-bottom: 1px solid var(--bgColor);
+        border-radius: 5px;
         &::placeholder {
-          color: rgb(175, 175, 175);
+          color: rgb(129, 127, 127);
+          padding: 10px;
         }
       }
       // error message styling
@@ -135,8 +160,9 @@
 
     button {
       background-color: var(--logoColor);
+      width: 250px;
       color: white;
-      padding: 15px 20px;
+      padding: 10px 20px;
       border: none;
       font-size: 15px;
       font-weight: bold;

@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import avatar from "../images/avatar.jpg";
+
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, storage, db } from "../firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
-import nani from "../images/nani.gif";
+import FormInput from "../components/FormInput";
+
+import avatar from "../images/avatar.jpg";
 const Register = () => {
   const [error, setError] = useState(false);
-  const [focused, setFocused] = useState(false);
-  console.log(focused); // state for form focused input
+
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     displayName: "",
@@ -18,6 +19,7 @@ const Register = () => {
     confirmPassword: "",
     file: "",
   });
+
   const inputs = [
     {
       id: 1,
@@ -114,71 +116,32 @@ const Register = () => {
     }
   };
   const onChange = (e) => {
+    console.log(e);
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const handleFocus = (e) => {
-    setFocused(true);
-  };
+
   return (
     <div className="formContainer">
       <div className="formWrapper">
         <span className="logo">fast chat</span>
         <span className="title">Register</span>
         <form onSubmit={submitHandler}>
-          {inputs.map((element) => {
-            // to display avatar input
-            if (element.type === "file")
+          <div className="input-container">
+            {inputs.map((input) => {
               return (
-                <div>
-                  <input
-                    {...element}
-                    name={element.name}
-                    style={{ display: "none" }}
-                    type="file"
-                    id="file"
-                    value={values[element.name]}
-                    onChange={onChange}
-                    required
-                    onFocus={() => {
-                      element.name === "confirmPassword" && setFocused(false);
-                    }}
-                  />
-                  <label htmlFor="file">
-                    {!loading && <img src={avatar} alt="avatar" />}
-                    {loading ? (
-                      <span>
-                        <img src={nani} alt="" className="spinner" />
-                        Uploading and compressing the image please wait
-                      </span>
-                    ) : (
-                      <span>+ Add an avatar</span>
-                    )}
-                  </label>
-                </div>
+                <FormInput
+                  key={input.id}
+                  {...input}
+                  value={values[input.name]}
+                  onChange={onChange}
+                  loading={loading}
+                />
               );
-            // display our form inputs
-            else
-              return (
-                <div className="input-container">
-                  <input
-                    {...element}
-                    key={element.id}
-                    name={element.name}
-                    type={element.type}
-                    placeholder={element.placeholder}
-                    onChange={onChange}
-                    value={values[element.name]}
-                    required
-                    onBlur={handleFocus}
-                    focused={focused.toString()}
-                  />
-                  <span>{element.errorMessage}</span>
-                </div>
-              );
-          })}
+            })}
+          </div>
           <button> Sign in</button>
           <p>
-            You do have an account?<Link to="/login">login</Link>
+            You do have an account? <Link to="/login">login</Link>
           </p>
         </form>
       </div>
