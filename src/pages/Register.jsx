@@ -86,8 +86,9 @@ const Register = () => {
       setLoading(true);
       // creating unique image
       const imageRef = ref(storage, `${values.displayName}`);
-      await uploadBytesResumable(imageRef, values.file).then(() => {
+      await uploadBytesResumable(imageRef, `${values.file}`).then(() => {
         getDownloadURL(imageRef).then(async (downloadURL) => {
+          console.log(downloadURL);
           try {
             // updating the user
             await updateProfile(res.user, {
@@ -116,10 +117,9 @@ const Register = () => {
     }
   };
   const onChange = (e) => {
-    console.log(e);
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-
+  console.log(values);
   return (
     <div className="formContainer">
       <div className="formWrapper">
@@ -128,11 +128,13 @@ const Register = () => {
         <form onSubmit={submitHandler}>
           <div className="input-container">
             {inputs.map((input) => {
+              const { name } = input;
+
               return (
                 <FormInput
                   key={input.id}
                   {...input}
-                  value={values[input.name]}
+                  value={values.name}
                   onChange={onChange}
                   loading={loading}
                 />

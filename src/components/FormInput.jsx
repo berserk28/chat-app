@@ -13,7 +13,7 @@ const FormInput = (props) => {
     ...inputProps
   } = props;
   const [focused, setFocused] = useState(false);
-  console.log(name);
+
   const handleFocus = (e) => {
     setFocused(true);
   };
@@ -22,7 +22,13 @@ const FormInput = (props) => {
   if (name === "file")
     return (
       <div>
-        <input type="file" style={{ display: "none" }} id="file" />
+        <input
+          type="file"
+          style={{ display: "none" }}
+          id="file"
+          name={name}
+          onChange={onChange}
+        />
 
         <label htmlFor="file">
           {!loading && <img src={avatar} alt="avatar" />}
@@ -45,6 +51,7 @@ const FormInput = (props) => {
         <input
           {...inputProps}
           placeholder={placeholder}
+          name={name}
           type={type}
           onChange={onChange}
           onBlur={handleFocus}
