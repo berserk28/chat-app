@@ -88,7 +88,7 @@ const Register = () => {
       const imageRef = ref(storage, `${values.displayName}`);
       await uploadBytesResumable(imageRef, `${values.file}`).then(() => {
         getDownloadURL(imageRef).then(async (downloadURL) => {
-          console.log(downloadURL);
+          
           try {
             // updating the user
             await updateProfile(res.user, {
