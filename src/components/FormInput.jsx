@@ -23,6 +23,7 @@ const FormInput = (props) => {
     return (
       <div>
         <input
+          {...inputProps}
           type="file"
           style={{ display: "none" }}
           id="file"
