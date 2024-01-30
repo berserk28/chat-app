@@ -25,6 +25,7 @@ const FormInput = (props) => {
         <input
           {...inputProps}
           type="file"
+          accept="image/*"
           style={{ display: "none" }}
           id="file"
           name={name}
