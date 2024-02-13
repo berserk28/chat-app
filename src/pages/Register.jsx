@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, storage, db } from "../firebase";
 import {
   ref,
-  getDownloadURL,
+  // 
   uploadBytesResumable,
   uploadBytes,
 } from "firebase/storage";
